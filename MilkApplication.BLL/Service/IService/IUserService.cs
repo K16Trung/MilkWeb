@@ -17,6 +17,7 @@ namespace MilkApplication.BLL.Service.IService
         Task<ResponseDTO> CreateUserAsync(UserDTO userDto, UserRole role);
         Task<ResponseDTO> CreateStaffAsync(StaffDTO staffDto, UserRole role);
         Task<ResponseDTO> CreateAdminAsync(AdminDTO adminDto, UserRole role);
+        Task<ResponseDTO> CreateSupplierAsync(SupplierDTO supplierDto, UserRole role);
         Task<ResponseDTO> GetUserByIdAsync(string userId);
         Task<ResponseDTO> GetUserByEmailAsync(string email);
         Task<ResponseDTO> GetAllUsersAsync();

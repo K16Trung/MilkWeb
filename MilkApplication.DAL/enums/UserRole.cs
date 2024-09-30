@@ -10,6 +10,7 @@ namespace MilkApplication.DAL.enums
     {
         Admin,
         User,
-        Staff
+        Staff,
+        Supplier
     }
 }

@@ -20,9 +20,11 @@ namespace MilkApplication.DAL.Repository.IRepositpry
         Task<ResponseDTO> CreateUserAsync(ApplicationUser user, string password);
         Task<ResponseDTO> CreateStaffAsync(ApplicationUser user, string password);
         Task<ResponseDTO> CreateAdminAsync(ApplicationUser user, string password);
+        Task<ResponseDTO> CreateSupplierAsync(ApplicationUser user, string password);
         Task<ResponseDTO> DeleteUserAsync(string userId, UserStatus status);
         Task<List<ApplicationUser>> GetUsersByStaffRoleAsync();
         Task<List<ApplicationUser>> GetUsersByAdminRoleAsync();
+        Task<List<ApplicationUser>> GetUsersBySupplierRoleAsync();
         public Task<Pagination<ApplicationUser>> GetAccountByFilterAsync(PaginationParameter paginationParameter, AccountFilterDTO accountFilterDTO);
         Task<ApplicationUser> GetUserByIdAsync(string userId);
     }

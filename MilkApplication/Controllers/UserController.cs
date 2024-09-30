@@ -53,6 +53,19 @@ namespace MilkApplication.Controllers
                 return BadRequest(response);
             }
         }
+        [HttpPost("CreateAdmin")]
+        public async Task<IActionResult> CreateSupplier([FromBody] SupplierDTO supplierDto)
+        {
+            var response = await _userService.CreateSupplierAsync(supplierDto, UserRole.Supplier);
+            if (response.IsSucceed)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
 
         [HttpGet("GetUserById/{id}")]
         public async Task<IActionResult> GetUserById(string id)

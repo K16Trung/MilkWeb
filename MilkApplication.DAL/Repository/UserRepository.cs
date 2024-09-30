@@ -58,6 +58,15 @@ namespace MilkApplication.DAL.Repository
             }
             return new ResponseDTO { IsSucceed = false, Message = "User creation failed", Data = result.Errors };
         }
+        public async Task<ResponseDTO> CreateSupplierAsync(ApplicationUser user, string password)
+        {
+            var result = await _userManager.CreateAsync(user, password);
+            if (result.Succeeded)
+            {
+                return new ResponseDTO { IsSucceed = true, Message = "User created successfully", Data = user };
+            }
+            return new ResponseDTO { IsSucceed = false, Message = "User creation failed", Data = result.Errors };
+        }
         public async Task<ApplicationUser> GetById(string userId)
         {
             return await _context.Users.Include(u => u.Addresses).FirstOrDefaultAsync(u => u.Id == userId);
@@ -107,6 +116,12 @@ namespace MilkApplication.DAL.Repository
         public async Task<List<ApplicationUser>> GetUsersByAdminRoleAsync()
         {
             var roleName = UserRole.Admin.ToString();
+            var usersInRole = await _userManager.GetUsersInRoleAsync(roleName);
+            return usersInRole.ToList();
+        }
+        public async Task<List<ApplicationUser>> GetUsersBySupplierRoleAsync()
+        {
+            var roleName = UserRole.Supplier.ToString();
             var usersInRole = await _userManager.GetUsersInRoleAsync(roleName);
             return usersInRole.ToList();
         }

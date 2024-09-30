@@ -134,6 +134,38 @@ namespace MilkApplication.BLL.Service
 
             return new ResponseDTO { IsSucceed = true, Message = "Admin registered successfully" };
         }
+        public async Task<ResponseDTO> CreateSupplierAsync(SupplierDTO supplierDto, UserRole role)
+        {
+            var user = _mapper.Map<ApplicationUser>(supplierDto);
+            user.Id = Guid.NewGuid().ToString();
+            user.RefreshToken = _jwtHelper.GenerateRefreshToken();
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+
+            user.Status = UserStatus.IsActive;
+            var createUserResult = await _unitOfWork.UserRepository.CreateAdminAsync(user, supplierDto.Password);
+            if (!createUserResult.IsSucceed)
+            {
+                return createUserResult;
+            }
+
+            var roleName = role.ToString();
+            if (!await _roleManager.RoleExistsAsync(roleName))
+            {
+                var createRoleResult = await _roleManager.CreateAsync(new IdentityRole(roleName));
+                if (!createRoleResult.Succeeded)
+                {
+                    return new ResponseDTO { IsSucceed = false, Message = "Failed to create role: " + string.Join(", ", createRoleResult.Errors.Select(e => e.Description)) };
+                }
+            }
+
+            var addToRoleResult = await _userManager.AddToRoleAsync(user, roleName);
+            if (!addToRoleResult.Succeeded)
+            {
+                return new ResponseDTO { IsSucceed = false, Message = "Failed to add supplier to role: " + string.Join(", ", addToRoleResult.Errors.Select(e => e.Description)) };
+            }
+
+            return new ResponseDTO { IsSucceed = true, Message = "Supplier registered successfully" };
+        }
 
         public async Task<ResponseDTO> GetUserByIdAsync(string userId)
         {
