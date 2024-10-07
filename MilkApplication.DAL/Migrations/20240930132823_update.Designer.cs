@@ -12,7 +12,7 @@ using MilkApplication.DAL.Data;
 namespace MilkApplication.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240715170101_update")]
+    [Migration("20240930132823_update")]
     partial class update
     {
         /// <inheritdoc />
@@ -180,6 +180,10 @@ namespace MilkApplication.DAL.Migrations
 
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Street")
                         .IsRequired()
@@ -590,6 +594,9 @@ namespace MilkApplication.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("productId"));
 
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -631,6 +638,8 @@ namespace MilkApplication.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("productId");
+
+                    b.HasIndex("Id");
 
                     b.HasIndex("categoryId");
 
@@ -833,6 +842,10 @@ namespace MilkApplication.DAL.Migrations
 
             modelBuilder.Entity("MilkApplication.DAL.Models.Product", b =>
                 {
+                    b.HasOne("MilkApplication.DAL.Models.ApplicationUser", "User")
+                        .WithMany("Products")
+                        .HasForeignKey("Id");
+
                     b.HasOne("MilkApplication.DAL.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("categoryId")
@@ -856,6 +869,8 @@ namespace MilkApplication.DAL.Migrations
                     b.Navigation("Location");
 
                     b.Navigation("Origin");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MilkApplication.DAL.Models.ApplicationUser", b =>
@@ -863,6 +878,8 @@ namespace MilkApplication.DAL.Migrations
                     b.Navigation("Addresses");
 
                     b.Navigation("Comments");
+
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("MilkApplication.DAL.Models.Category", b =>

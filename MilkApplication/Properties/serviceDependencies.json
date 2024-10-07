@@ -11,6 +11,10 @@
     "mssql1": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:Connection"
+    },
+    "mssql4": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:ConntectionDefault"
     }
   }
 }

@@ -170,6 +170,7 @@ namespace MilkApplication.DAL.Migrations
                 {
                     addressId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AddressName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -288,11 +289,17 @@ namespace MilkApplication.DAL.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     categoryId = table.Column<int>(type: "int", nullable: false),
                     originId = table.Column<int>(type: "int", nullable: false),
-                    locationId = table.Column<int>(type: "int", nullable: false)
+                    locationId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.productId);
+                    table.ForeignKey(
+                        name: "FK_Products_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Products_Categories_categoryId",
                         column: x => x.categoryId,
@@ -584,6 +591,11 @@ namespace MilkApplication.DAL.Migrations
                 name: "IX_Products_categoryId",
                 table: "Products",
                 column: "categoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_Id",
+                table: "Products",
+                column: "Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_locationId",

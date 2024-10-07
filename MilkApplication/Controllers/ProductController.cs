@@ -50,7 +50,7 @@ namespace MilkApplication.Controllers
         [Route("GetProductsById/{id:int}")]
         public async Task<ActionResult<Product>> GetProductById(int id)
         {
-            
+
             try
             {
                 var result = await _productService.GetProductByIdAsync(id);
@@ -65,6 +65,19 @@ namespace MilkApplication.Controllers
 
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost]
+        [Route("CreateProductForSupplier")]
+        public async Task<IActionResult> CreateProductForSupplier([FromBody] ProductForSupplierDTO productforsupplierDTO)
+        {
+            var userId = _userManager.GetUserId(User);
+            var result = await _productService.AddProductForSupplierAsync(productforsupplierDTO);
+            if (result.IsSucceed)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpPost]

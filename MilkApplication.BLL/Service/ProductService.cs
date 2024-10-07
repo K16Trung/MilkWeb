@@ -129,6 +129,41 @@ namespace MilkApplication.BLL.Service
             };
             return response;
         }
+        public async Task<ResponseDTO> AddProductForSupplierAsync(ProductForSupplierDTO productforsupplierDTO)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByIdAsync(productforsupplierDTO.Id);
+            if (user == null)
+            {
+                return new ResponseDTO
+                {
+                    IsSucceed = false,
+                    Message = "User not found",
+                };
+            }
+            var roles = await _userManager.GetRolesAsync(user);
+            if (!roles.Contains(UserRole.Admin.ToString()) && !roles.Contains(UserRole.Staff.ToString()))
+            {
+                return new ResponseDTO
+                {
+                    IsSucceed = false,
+                    Message = "User does not have permission to add products",
+                };
+            }
+
+            var productObj = _mapper.Map<Product>(productforsupplierDTO);
+
+            productObj.Status = ProductStatus.Valiable;
+
+            await _unitOfWork.ProductRepository.AddAsync(productObj);
+            await _unitOfWork.SaveChangeAsync();
+
+            var response = new ResponseDTO
+            {
+                IsSucceed = true,
+                Message = "Product added successfully",
+            };
+            return response;
+        }
 
         public async Task<ResponseDTO> UpdateProductAsync(int id, ProductDTO productDTO)
         {

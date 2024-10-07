@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "mssql4": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/MilkApplication20240923200645/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsConntectionDefault_B7D7ADEB2F",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/milkapplicationdbserver/databases/MilkApplication_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:ConntectionDefault"
+    }
+  }
+}
