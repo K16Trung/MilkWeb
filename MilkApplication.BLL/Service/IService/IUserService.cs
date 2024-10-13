@@ -25,8 +25,10 @@ namespace MilkApplication.BLL.Service.IService
         Task<ResponseDTO> DeleteUserAsync(string userId);
         Task<ResponseDTO> UnbanUserAsync(string userId);
         Task<ResponseDTO> UpdateUserPasswordAsync(string email, UpdatePasswordDTO updatePasswordDto);
+        Task<ResponseDTO> GetUsersByUserRoleAsync();
         Task<ResponseDTO> GetUsersByStaffRoleAsync();
         Task<ResponseDTO> GetUsersByAdminRoleAsync();
+        Task<ResponseDTO> GetUsersBySupplierRoleAsync();
         public Task<Pagination<UserDTO>> GetAccountByFilterAsync(PaginationParameter paginationParameter, AccountFilterDTO accountFilterDTO);
     }
 }

@@ -319,6 +319,16 @@ namespace MilkApplication.BLL.Service
                 return new ResponseDTO { IsSucceed = false, Message = "An error occurred while updating password" };
             }
         }
+        public async Task<ResponseDTO> GetUsersByUserRoleAsync()
+        {
+            var memberResponse = await _unitOfWork.UserRepository.GetUsersByUserRoleAsync();
+            if (memberResponse != null && memberResponse.Any())
+            {
+                var memberDto = _mapper.Map<List<UserDTO>>(memberResponse);
+                return new ResponseDTO { IsSucceed = true, Message = "Member retrives successfully", Data = memberDto };
+            }
+            return new ResponseDTO { IsSucceed = false, Message = "Member not found" };
+        }
         public async Task<ResponseDTO> GetUsersByStaffRoleAsync()
         {
             var staffResponse = await _unitOfWork.UserRepository.GetUsersByStaffRoleAsync();
@@ -338,6 +348,16 @@ namespace MilkApplication.BLL.Service
                 return new ResponseDTO { IsSucceed = true, Message = "Admin retrives successfully", Data = adminDto };
             }
             return new ResponseDTO { IsSucceed = false, Message = "Admin not found" };
+        }
+        public async Task<ResponseDTO> GetUsersBySupplierRoleAsync()
+        {
+            var supplierResponse = await _unitOfWork.UserRepository.GetUsersBySupplierRoleAsync();
+            if (supplierResponse != null && supplierResponse.Any())
+            {
+                var supplierDto = _mapper.Map<List<UserDTO>>(supplierResponse);
+                return new ResponseDTO { IsSucceed = true, Message = "Supplier retrives successfully", Data = supplierDto };
+            }
+            return new ResponseDTO { IsSucceed = false, Message = "Supplier not found" };
         }
         public async Task<Pagination<UserDTO>> GetAccountByFilterAsync(PaginationParameter paginationParameter, AccountFilterDTO accountFilterDTO)
         {

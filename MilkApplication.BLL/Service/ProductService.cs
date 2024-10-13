@@ -141,7 +141,7 @@ namespace MilkApplication.BLL.Service
                 };
             }
             var roles = await _userManager.GetRolesAsync(user);
-            if (!roles.Contains(UserRole.Admin.ToString()) && !roles.Contains(UserRole.Staff.ToString()))
+            if (!roles.Contains(UserRole.Admin.ToString()) && !roles.Contains(UserRole.Staff.ToString()) && !roles.Contains(UserRole.Supplier.ToString()))
             {
                 return new ResponseDTO
                 {

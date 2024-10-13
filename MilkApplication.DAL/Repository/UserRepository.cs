@@ -100,12 +100,18 @@ namespace MilkApplication.DAL.Repository
 
             if (result.Succeeded)
             {
-                return new ResponseDTO { IsSucceed = true, Message = "User status changed successfully"};
+                return new ResponseDTO { IsSucceed = true, Message = "User status changed successfully" };
             }
             else
             {
                 return new ResponseDTO { IsSucceed = false, Message = "Failed to change user status" };
             }
+        }
+        public async Task<List<ApplicationUser>> GetUsersByUserRoleAsync()
+        {
+            var roleName = UserRole.User.ToString();
+            var usersInRole = await _userManager.GetUsersInRoleAsync(roleName);
+            return usersInRole.ToList();
         }
         public async Task<List<ApplicationUser>> GetUsersByStaffRoleAsync()
         {
