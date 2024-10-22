@@ -231,22 +231,24 @@ namespace MilkApplication.BLL.Service
         public async Task<decimal> GetTotalAmountByDayAsync(DateTime date)
         {
             return await _unitOfWork.PaymentRepository.SumAsync(
-                p => p.PaymentDate.Date == date.Date,
+                p => p.PaymentDate.Date == date.Date && p.Status == PaymentStatus.PAID,
                 p => p.Amount
             );
         }
+
 
         public async Task<decimal> GetTotalAmountByMonthAsync(int year, int month)
         {
             return await _unitOfWork.PaymentRepository.SumAsync(
-                p => p.PaymentDate.Year == year && p.PaymentDate.Month == month,
+                p => p.PaymentDate.Year == year && p.PaymentDate.Month == month && p.Status == PaymentStatus.PAID,
                 p => p.Amount
             );
         }
 
+
         public async Task<Dictionary<string, decimal>> GetTotalAmountsForLast12MonthsAsync()
         {
-            return await _unitOfWork.PaymentRepository.GetMonthlyTotalsAsync(12);
+            return await _unitOfWork.PaymentRepository.GetMonthlyTotalsAsync(12, p => p.Status == PaymentStatus.PAID);
         }
 
     }

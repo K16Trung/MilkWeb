@@ -60,7 +60,7 @@ namespace MilkApplication.DAL.Repository
             return await _context.Payments.Where(predicate).SumAsync(selector);
         }
 
-        public async Task<Dictionary<string, decimal>> GetMonthlyTotalsAsync(int months)
+        public async Task<Dictionary<string, decimal>> GetMonthlyTotalsAsync(int months, Expression<Func<Payment, bool>> predicate)
         {
             var result = new Dictionary<string, decimal>();
             var currentDate = DateTime.Now;
@@ -68,9 +68,11 @@ namespace MilkApplication.DAL.Repository
             for (int i = 0; i < months; i++)
             {
                 var date = currentDate.AddMonths(-i);
+
                 var totalAmount = await _context.Payments
-                    .Where(p => p.PaymentDate.Year == date.Year && p.PaymentDate.Month == date.Month)
+                    .Where(p => p.PaymentDate.Year == date.Year && p.PaymentDate.Month == date.Month && p.Status == PaymentStatus.PAID)
                     .SumAsync(p => p.Amount);
+
                 result.Add(date.ToString("yyyy-MM"), totalAmount);
             }
 

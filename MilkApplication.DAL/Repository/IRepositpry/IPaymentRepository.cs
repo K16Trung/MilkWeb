@@ -16,7 +16,7 @@ namespace MilkApplication.DAL.Repository.IRepositpry
         Task<IEnumerable<Payment>> GetPaymentsByStatusAsync(PaymentStatus status);
         Task<List<Payment>> GetPendingPaymentsAsync();
         Task<decimal> SumAsync(Expression<Func<Payment, bool>> predicate, Expression<Func<Payment, decimal>> selector);
-        Task<Dictionary<string, decimal>> GetMonthlyTotalsAsync(int months);
+        Task<Dictionary<string, decimal>> GetMonthlyTotalsAsync(int months, Expression<Func<Payment, bool>> predicate);
         Task<List<Payment>> GetPaymentsByStatusAndUserIdAsync(PaymentStatus status, string userId);
         Task<List<Payment>> GetPaymentsByUserIdAsync(string userId);
 
